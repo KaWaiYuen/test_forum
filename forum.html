@@ -1,73 +1,57 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.4">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Forum</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #forum-container { width: 50%; margin: auto; }
+        .post { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+    </style>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Online Forum&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>body { font-family: Arial, sans-serif; text-align: center; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>#forum-container { width: 50%; margin: auto; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.post { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Firebase --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"&gt;&lt;/script&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;Online Forum&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="forum-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="username" placeholder="Enter your name"&gt;&lt;br&gt;&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;textarea id="message" placeholder="Write your message"&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="postMessage()"&gt;Post&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="posts"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Firebase configuration</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const firebaseConfig = {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>apiKey: "YOUR_API_KEY",</p>
-<p class="p1"><span class="Apple-converted-space">            </span>authDomain: "YOUR_AUTH_DOMAIN",</p>
-<p class="p1"><span class="Apple-converted-space">            </span>databaseURL: "YOUR_DATABASE_URL",</p>
-<p class="p1"><span class="Apple-converted-space">            </span>projectId: "YOUR_PROJECT_ID",</p>
-<p class="p1"><span class="Apple-converted-space">            </span>storageBucket: "YOUR_STORAGE_BUCKET",</p>
-<p class="p1"><span class="Apple-converted-space">            </span>messagingSenderId: "YOUR_MESSAGING_SENDER_ID",</p>
-<p class="p1"><span class="Apple-converted-space">            </span>appId: "YOUR_APP_ID"</p>
-<p class="p1"><span class="Apple-converted-space">        </span>};</p>
-<p class="p1"><span class="Apple-converted-space">        </span>firebase.initializeApp(firebaseConfig);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const db = firebase.database().ref("forum");</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function postMessage() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>let username = document.getElementById("username").value;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>let message = document.getElementById("message").value;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (username &amp;&amp; message) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>db.push({ username, message });</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById("message").value = "";</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>db.on("child_added", snapshot =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>let post = snapshot.val();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>let postElement = document.createElement("div");</p>
-<p class="p1"><span class="Apple-converted-space">            </span>postElement.classList.add("post");</p>
-<p class="p1"><span class="Apple-converted-space">            </span>postElement.innerHTML = `&lt;strong&gt;${post.username}:&lt;/strong&gt; ${post.message}`;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById("posts").prepend(postElement);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+    <h1>Online Forum</h1>
+    <div id="forum-container">
+        <input type="text" id="username" placeholder="Enter your name"><br><br>
+        <textarea id="message" placeholder="Write your message"></textarea><br><br>
+        <button onclick="postMessage()">Post</button>
+        <div id="posts"></div>
+    </div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            databaseURL: "YOUR_DATABASE_URL",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database().ref("forum");
+
+        function postMessage() {
+            let username = document.getElementById("username").value;
+            let message = document.getElementById("message").value;
+            if (username && message) {
+                db.push({ username, message });
+                document.getElementById("message").value = "";
+            }
+        }
+
+        db.on("child_added", snapshot => {
+            let post = snapshot.val();
+            let postElement = document.createElement("div");
+            postElement.classList.add("post");
+            postElement.innerHTML = `<strong>${post.username}:</strong> ${post.message}`;
+            document.getElementById("posts").prepend(postElement);
+        });
+    </script>
 </body>
 </html>
